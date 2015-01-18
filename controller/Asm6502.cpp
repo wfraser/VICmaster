@@ -102,72 +102,72 @@ void Asm6502::Emit(InstrImplied i)
     EmitByte(static_cast<uint8_t>(i));
 }
 
-void Asm6502::EmitImm(InstrImmed i, uint8_t value)
+void Asm6502::Emit(InstrImmed i, uint8_t value)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitByte(value);
 }
 
-void Asm6502::EmitA(InstrA i)
+void Asm6502::Emit(InstrA i)
 {
     EmitByte(static_cast<uint8_t>(i));
 }
 
-void Asm6502::EmitRel(InstrRel i, uint8_t addrOffset)
+void Asm6502::Emit(InstrRel i, uint8_t addrOffset)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitByte(addrOffset);
 }
 
-void Asm6502::EmitZP(InstrZP i, uint8_t address)
+void Asm6502::Emit(InstrZP i, uint8_t address)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitZPX(InstrZPX i, uint8_t address)
+void Asm6502::Emit(InstrZPX i, uint8_t address)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitZPY(InstrZPY i, uint8_t address)
+void Asm6502::Emit(InstrZPY i, uint8_t address)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitAbs(InstrAbs i, uint16_t address)
+void Asm6502::Emit(InstrAbs i, uint16_t address)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitAddr(address);
 }
 
-void Asm6502::EmitAbsX(InstrAbsX i, uint16_t address)
+void Asm6502::Emit(InstrAbsX i, uint16_t address)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitAddr(address);
 }
 
-void Asm6502::EmitAbsY(InstrAbsY i, uint16_t address)
+void Asm6502::Emit(InstrAbsY i, uint16_t address)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitAddr(address);
 }
 
-void Asm6502::EmitInd(InstrInd i, uint8_t address)
+void Asm6502::Emit(InstrInd i, uint8_t address)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitIndX(InstrIndX i, uint8_t address)
+void Asm6502::Emit(InstrIndX i, uint8_t address)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitIndY(InstrIndY i, uint8_t address)
+void Asm6502::Emit(InstrIndY i, uint8_t address)
 {
     EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);

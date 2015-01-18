@@ -40,8 +40,8 @@ int wmain(int argc, wchar_t* argv[])
     // Output a basic test program.
 
     cpu.CurrentAddress = BLK5;                  // Start of cartridge ROM program
-    cpu.EmitAbs(Abs::INC, VIC_ColorRegister);   // Increment the VIC's draw color
-    cpu.EmitAbs(Abs::JMP, BLK5);                // jump back
+    cpu.Emit(Abs::INC, VIC_ColorRegister);   // Increment the VIC's draw color
+    cpu.Emit(Abs::JMP, BLK5);                // jump back
 
     io->Print();
 

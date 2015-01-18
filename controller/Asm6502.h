@@ -286,18 +286,18 @@ public:
     Asm6502(std::shared_ptr<IOLayer> io);
 
     void Emit(InstrImplied);
-    void EmitImm(InstrImmed, uint8_t value);
-    void EmitA(InstrA);
-    void EmitRel(InstrRel, uint8_t addrOffset);
-    void EmitZP(InstrZP, uint8_t address);
-    void EmitZPX(InstrZPX, uint8_t address);
-    void EmitZPY(InstrZPY, uint8_t address);
-    void EmitAbs(InstrAbs, uint16_t address);
-    void EmitAbsX(InstrAbsX, uint16_t address);
-    void EmitAbsY(InstrAbsY, uint16_t address);
-    void EmitInd(InstrInd, uint8_t ptrAddress);
-    void EmitIndX(InstrIndX, uint8_t ptrAddress);
-    void EmitIndY(InstrIndY, uint8_t ptrAddress);
+    void Emit(InstrImmed, uint8_t value);
+    void Emit(InstrA);
+    void Emit(InstrRel, uint8_t addrOffset);
+    void Emit(InstrZP, uint8_t address);
+    void Emit(InstrZPX, uint8_t address);
+    void Emit(InstrZPY, uint8_t address);
+    void Emit(InstrAbs, uint16_t address);
+    void Emit(InstrAbsX, uint16_t address);
+    void Emit(InstrAbsY, uint16_t address);
+    void Emit(InstrInd, uint8_t ptrAddress);
+    void Emit(InstrIndX, uint8_t ptrAddress);
+    void Emit(InstrIndY, uint8_t ptrAddress);
 
     void EmitBytes(const uint8_t* bytes, size_t nBytes);
     void EmitByte(uint8_t byte);
