@@ -6,6 +6,25 @@
 
 using namespace std;
 
+#if 0
+enum class Mode : uint8_t
+{
+    Implied = 0,// Implied (no arguments)
+    Immed,      // Immediate
+    A,          // 'A' Register
+    Rel,        // Relative
+    ZP,         // Zero Page
+    ZPX,        // Zero Page Indexed by 'X' Register
+    ZPY,        // Zero Page Indexed by 'Y' Register
+    Abs,        // Absolute
+    AbsX,       // Absolute Indexed by 'X' Register
+    AbsY,       // Absolute Indexed by 'Y' Register
+    Ind,        // Indirect from Pointer in the Zero Page
+    IndX,       // Indirect from Pointer in the Zero Page Indexed by 'X' Register Before Dereferencing
+    IndY,       // Indirect from Pointer in the Zero Page Indexed by 'Y' Register After Dereferencing
+    MAX_VALUE
+};
+
 #define xxx static_cast<uint8_t>(Asm6502::Instruction::INVALID)
 const uint8_t Asm6502::Opcodes[] = {
     //          Implied Immed   A       Rel     ZP      ZPX     ZPY     Abs     AbsX    AbsY    Ind     IndX    IndY
@@ -68,16 +87,12 @@ const uint8_t Asm6502::Opcodes[] = {
     /* TXS */   0x9a,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* TYA */   0x98,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx
 };
+#endif
 
 Asm6502::Asm6502(std::shared_ptr<IOLayer> io)
     : CurrentAddress(0)
     , m_io(io)
 {
-}
-
-uint8_t Asm6502::Opcode(Instruction i, Mode m)
-{
-    return Asm6502::Opcodes[static_cast<size_t>(i) * static_cast<size_t>(Mode::MAX_VALUE) + static_cast<size_t>(m)];
 }
 
 void Asm6502::EmitAddr(uint16_t addr)

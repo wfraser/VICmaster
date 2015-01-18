@@ -306,26 +306,5 @@ public:
     uint16_t CurrentAddress;
 
 private:
-    static const uint8_t Opcodes[];
-    enum class Mode : uint8_t
-    {
-        Implied = 0,// Implied (no arguments)
-        Immed,      // Immediate
-        A,          // 'A' Register
-        Rel,        // Relative
-        ZP,         // Zero Page
-        ZPX,        // Zero Page Indexed by 'X' Register
-        ZPY,        // Zero Page Indexed by 'Y' Register
-        Abs,        // Absolute
-        AbsX,       // Absolute Indexed by 'X' Register
-        AbsY,       // Absolute Indexed by 'Y' Register
-        Ind,        // Indirect from Pointer in the Zero Page
-        IndX,       // Indirect from Pointer in the Zero Page Indexed by 'X' Register Before Dereferencing
-        IndY,       // Indirect from Pointer in the Zero Page Indexed by 'Y' Register After Dereferencing
-        MAX_VALUE
-    };
-
-    static uint8_t Opcode(Instruction, Mode);
-
     std::shared_ptr<IOLayer> m_io;
 };
