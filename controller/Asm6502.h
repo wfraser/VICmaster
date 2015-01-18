@@ -5,12 +5,220 @@
 class Asm6502
 {
 public:
-    class BadInstruction : public std::exception
+    // Implied (no arguments)
+    enum class InstrImplied : uint8_t
     {
-        std::string what()
-        {
-            return "Invalid 6502 Instruction";
-        }
+        BEQ = 0xf0,
+        BRK = 0x00,
+        CLC = 0x18,
+        CLD = 0xd8,
+        CLI = 0x58,
+        CLV = 0xb8,
+        DEX = 0xca,
+        DEY = 0x88,
+        INX = 0xe8,
+        INY = 0xc8,
+        NOP = 0xea,
+        PHA = 0x48,
+        PHP = 0x08,
+        PLA = 0x68,
+        PLP = 0x28,
+        RTI = 0x40,
+        RTS = 0x60,
+        SEC = 0x38,
+        SED = 0xf8,
+        SEI = 0x78,
+        TAX = 0xaa,
+        TAY = 0xa8,
+        TSX = 0xba,
+        TXA = 0x8a,
+        TXS = 0x9a,
+        TYA = 0x98,
+    };
+
+    // Immediate
+    enum class InstrImmed : uint8_t
+    {
+        ADC = 0x69,
+        AND = 0x29,
+        CMD = 0xc9,
+        CPX = 0xe0,
+        CPY = 0xc0,
+        EOR = 0x49,
+        LDA = 0xa9,
+        LDX = 0xa2,
+        LDY = 0xa0,
+        ORA = 0x09,
+        SBC = 0xe9,
+    };
+
+    // 'A' Register
+    enum class InstrA : uint8_t
+    {
+        ASL = 0x0a,
+        LSR = 0x4a,
+        ROL = 0x2a,
+        ROR = 0x2a,
+    };
+
+    // Relative
+    enum class InstrRel : uint8_t
+    {
+        BCC = 0x90,
+        BCS = 0xb0,
+        BMI = 0x30,
+        BNE = 0xd0,
+        BPL = 0x10,
+        BVC = 0x50,
+        BVS = 0x70,
+    };
+
+    // Zero Page
+    enum class InstrZP : uint8_t
+    {
+        ADC = 0x65,
+        AND = 0x25,
+        ASL = 0x06,
+        BIT = 0x24,
+        CMP = 0xc5,
+        CPX = 0xe4,
+        CPY = 0xc4,
+        DEC = 0xc6,
+        EOR = 0x45,
+        INC = 0xe6,
+        LDA = 0xa5,
+        LDX = 0xa6,
+        LDY = 0xa4,
+        LSR = 0x46,
+        ORA = 0x05,
+        ROL = 0x26,
+        ROR = 0x66,
+        SBC = 0xe5,
+        STA = 0x85,
+        STX = 0x86,
+        STY = 0x84,
+    };
+
+    // Zero Page Indexed by 'X' Register
+    enum class InstrZPX : uint8_t
+    {
+        ADC = 0x75,
+        AND = 0x35,
+        ASL = 0x16,
+        CMP = 0xd5,
+        DEC = 0xd6,
+        EOR = 0x55,
+        INC = 0xf6,
+        LDA = 0xb5,
+        LDY = 0xb4,
+        LSR = 0x56,
+        ORA = 0x15,
+        ROL = 0x36,
+        ROR = 0x76,
+        SBC = 0xf5,
+        STA = 0x95,
+        STY = 0x94,
+    };
+
+    // Zero Page Indexed by 'Y' Register
+    enum class InstrZPY : uint8_t
+    {
+        LDX = 0xb6,
+        STX = 0x96,
+    };
+
+    // Absolute
+    enum class InstrAbs : uint8_t
+    {
+        ADC = 0x6d,
+        AND = 0x2d,
+        ASL = 0x0e,
+        BIT = 0x2c,
+        CMP = 0xcd,
+        CPX = 0xec,
+        CPY = 0xcc,
+        DEC = 0xce,
+        EOR = 0x4d,
+        INC = 0xee,
+        JMP = 0x4c,
+        JSR = 0x20,
+        LDA = 0xad,
+        LDX = 0xae,
+        LDY = 0xac,
+        LSR = 0x4e,
+        ORA = 0x0d,
+        ROL = 0x2e,
+        ROR = 0x6e,
+        SBC = 0xed,
+        STA = 0x8d,
+        STX = 0x8e,
+        STY = 0x8c,
+    };
+
+    // Absolute Indexed by 'X' Register
+    enum class InstrAbsX : uint8_t
+    {
+        ADC = 0x7d,
+        AND = 0x3d,
+        ASL = 0x1e,
+        CMP = 0xdd,
+        DEC = 0xde,
+        EOR = 0x5d,
+        INC = 0xfe,
+        LDA = 0xbd,
+        LDY = 0xbc,
+        LSR = 0x5e,
+        ORA = 0x1d,
+        ROL = 0x3e,
+        ROR = 0x7e,
+        SBC = 0xfd,
+        STA = 0x9d,
+    };
+
+    // Absolute Indexed by 'Y' Register
+    enum class InstrAbsY : uint8_t
+    {
+        ADC = 0x79,
+        AND = 0x39,
+        CMP = 0xd9,
+        EOR = 0x59,
+        LDA = 0xb9,
+        LDX = 0xbe,
+        ORA = 0x19,
+        SBC = 0xf9,
+        STA = 0x99,
+    };
+
+    // Indirect from Pointer in the Zero Page
+    enum class InstrInd : uint8_t
+    {
+        JMP = 0x6c,
+    };
+
+    // Indirect from Pointer in the Zero Page Indexed by 'X' Register Before Dereferencing
+    enum class InstrIndX : uint8_t
+    {
+        ADC = 0x61,
+        AND = 0x21,
+        CMP = 0xc1,
+        EOR = 0x41,
+        LDA = 0xa1,
+        ORA = 0x01,
+        SBC = 0xe1,
+        STA = 0x81,
+    };
+
+    // Indirect from Pointer in the Zero Page Indexed by 'Y' Register After Dereferencing
+    enum class InstrIndY : uint8_t
+    {
+        ADC = 0x71,
+        AND = 0x31,
+        CMP = 0xd1,
+        EOR = 0x51,
+        LDA = 0xb1,
+        ORA = 0x11,
+        SBC = 0xf1,
+        STA = 0x91,
     };
 
     enum class Instruction : uint8_t
@@ -77,19 +285,19 @@ public:
 
     Asm6502(std::shared_ptr<IOLayer> io);
 
-    void Emit(Instruction);
-    void EmitImm(Instruction, uint8_t value);
-    void EmitA(Instruction);
-    void EmitRel(Instruction, uint8_t addrOffset);
-    void EmitZP(Instruction, uint8_t address);
-    void EmitZPX(Instruction, uint8_t address);
-    void EmitZPY(Instruction, uint8_t address);
-    void EmitAbs(Instruction, uint16_t address);
-    void EmitAbsX(Instruction, uint16_t address);
-    void EmitAbsY(Instruction, uint16_t address);
-    void EmitInd(Instruction, uint8_t ptrAddress);
-    void EmitIndX(Instruction, uint8_t ptrAddress);
-    void EmitIndY(Instruction, uint8_t ptrAddress);
+    void Emit(InstrImplied);
+    void EmitImm(InstrImmed, uint8_t value);
+    void EmitA(InstrA);
+    void EmitRel(InstrRel, uint8_t addrOffset);
+    void EmitZP(InstrZP, uint8_t address);
+    void EmitZPX(InstrZPX, uint8_t address);
+    void EmitZPY(InstrZPY, uint8_t address);
+    void EmitAbs(InstrAbs, uint16_t address);
+    void EmitAbsX(InstrAbsX, uint16_t address);
+    void EmitAbsY(InstrAbsY, uint16_t address);
+    void EmitInd(InstrInd, uint8_t ptrAddress);
+    void EmitIndX(InstrIndX, uint8_t ptrAddress);
+    void EmitIndY(InstrIndY, uint8_t ptrAddress);
 
     void EmitBytes(const uint8_t* bytes, size_t nBytes);
     void EmitByte(uint8_t byte);
@@ -117,15 +325,7 @@ private:
         MAX_VALUE
     };
 
-    uint8_t Opcode(Instruction, Mode);
-
-    void EmitInstruction(Instruction i, Mode m)
-    {
-        uint8_t op = Opcode(i, m);
-        if (op == static_cast<uint8_t>(Instruction::INVALID))
-            throw new BadInstruction();
-        EmitByte(op);
-    }
+    static uint8_t Opcode(Instruction, Mode);
 
     std::shared_ptr<IOLayer> m_io;
 };

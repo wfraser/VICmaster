@@ -24,7 +24,7 @@ const uint8_t Asm6502::Opcodes[] = {
     /* BVS */   xxx,    xxx,    xxx,    0x70,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* CLC */   0x18,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* CLD */   0xd8,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
-    /* CLI */   0xb8,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
+    /* CLI */   0x58,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* CLV */   0xb8,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* CMP */   xxx,    0xc9,   xxx,    xxx,    0xc5,   0xd5,   xxx,    0xcd,   0xdd,   0xd9,   xxx,    0xc1,   0xd1,
     /* CPX */   xxx,    0xe0,   xxx,    xxx,    0xe4,   xxx,    xxx,    0xec,   xxx,    xxx,    xxx,    xxx,    xxx,
@@ -59,7 +59,7 @@ const uint8_t Asm6502::Opcodes[] = {
     /* SED */   0xf8,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* SEI */   0x78,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* STA */   xxx,    xxx,    xxx,    xxx,    0x85,   0x95,   xxx,    0x8d,   0x9d,   0x99,   xxx,    0x81,   0x91,
-    /* STX */   xxx,    xxx,    xxx,    xxx,    0x86,   0x96,   xxx,    0x8e,   xxx,    xxx,    xxx,    xxx,    xxx,
+    /* STX */   xxx,    xxx,    xxx,    xxx,    0x86,   xxx,    0x96,   0x8e,   xxx,    xxx,    xxx,    xxx,    xxx,
     /* STY */   xxx,    xxx,    xxx,    xxx,    0x84,   0x94,   xxx,    0x8c,   xxx,    xxx,    xxx,    xxx,    xxx,
     /* TAX */   0xaa,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* TAY */   0xa8,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
@@ -97,78 +97,78 @@ void Asm6502::EmitByte(uint8_t byte)
     CurrentAddress++;
 }
 
-void Asm6502::Emit(Instruction i)
+void Asm6502::Emit(InstrImplied i)
 {
-    EmitInstruction(i, Mode::Implied);
+    EmitByte(static_cast<uint8_t>(i));
 }
 
-void Asm6502::EmitImm(Instruction i, uint8_t value)
+void Asm6502::EmitImm(InstrImmed i, uint8_t value)
 {
-    EmitInstruction(i, Mode::Immed);
+    EmitByte(static_cast<uint8_t>(i));
     EmitByte(value);
 }
 
-void Asm6502::EmitA(Instruction i)
+void Asm6502::EmitA(InstrA i)
 {
-    EmitInstruction(i, Mode::A);
+    EmitByte(static_cast<uint8_t>(i));
 }
 
-void Asm6502::EmitRel(Instruction i, uint8_t addrOffset)
+void Asm6502::EmitRel(InstrRel i, uint8_t addrOffset)
 {
-    EmitInstruction(i, Mode::Rel);
+    EmitByte(static_cast<uint8_t>(i));
     EmitByte(addrOffset);
 }
 
-void Asm6502::EmitZP(Instruction i, uint8_t address)
+void Asm6502::EmitZP(InstrZP i, uint8_t address)
 {
-    EmitInstruction(i, Mode::ZP);
+    EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitZPX(Instruction i, uint8_t address)
+void Asm6502::EmitZPX(InstrZPX i, uint8_t address)
 {
-    EmitInstruction(i, Mode::ZPX);
+    EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitZPY(Instruction i, uint8_t address)
+void Asm6502::EmitZPY(InstrZPY i, uint8_t address)
 {
-    EmitInstruction(i, Mode::ZPY);
+    EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitAbs(Instruction i, uint16_t address)
+void Asm6502::EmitAbs(InstrAbs i, uint16_t address)
 {
-    EmitInstruction(i, Mode::Abs);
+    EmitByte(static_cast<uint8_t>(i));
     EmitAddr(address);
 }
 
-void Asm6502::EmitAbsX(Instruction i, uint16_t address)
+void Asm6502::EmitAbsX(InstrAbsX i, uint16_t address)
 {
-    EmitInstruction(i, Mode::AbsX);
+    EmitByte(static_cast<uint8_t>(i));
     EmitAddr(address);
 }
 
-void Asm6502::EmitAbsY(Instruction i, uint16_t address)
+void Asm6502::EmitAbsY(InstrAbsY i, uint16_t address)
 {
-    EmitInstruction(i, Mode::AbsY);
+    EmitByte(static_cast<uint8_t>(i));
     EmitAddr(address);
 }
 
-void Asm6502::EmitInd(Instruction i, uint8_t address)
+void Asm6502::EmitInd(InstrInd i, uint8_t address)
 {
-    EmitInstruction(i, Mode::Ind);
+    EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitIndX(Instruction i, uint8_t address)
+void Asm6502::EmitIndX(InstrIndX i, uint8_t address)
 {
-    EmitInstruction(i, Mode::IndX);
+    EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
 
-void Asm6502::EmitIndY(Instruction i, uint8_t address)
+void Asm6502::EmitIndY(InstrIndY i, uint8_t address)
 {
-    EmitInstruction(i, Mode::IndY);
+    EmitByte(static_cast<uint8_t>(i));
     EmitByte(address);
 }
