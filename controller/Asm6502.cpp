@@ -14,7 +14,7 @@ const uint8_t Asm6502::Opcodes[] = {
     /* ASL */   xxx,    xxx,    0x0a,   xxx,    0x06,   0x16,   xxx,    0x0e,   0x1e,   xxx,    xxx,    xxx,    xxx,
     /* BCC */   xxx,    xxx,    xxx,    0x90,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* BCS */   xxx,    xxx,    xxx,    0xb0,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
-    /* BEQ */   0xf0,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
+    /* BEQ */   xxx,    xxx,    xxx,    0xf0,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* BIT */   xxx,    xxx,    xxx,    xxx,    0x24,   xxx,    xxx,    0x2c,   xxx,    xxx,    xxx,    xxx,    xxx,
     /* BMI */   xxx,    xxx,    xxx,    0x30,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,
     /* BNE */   xxx,    xxx,    xxx,    0xd0,   xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,    xxx,

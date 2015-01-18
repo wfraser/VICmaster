@@ -8,217 +8,217 @@ public:
     // Implied (no arguments)
     enum class InstrImplied : uint8_t
     {
-        BEQ = 0xf0,
-        BRK = 0x00,
-        CLC = 0x18,
-        CLD = 0xd8,
-        CLI = 0x58,
-        CLV = 0xb8,
-        DEX = 0xca,
-        DEY = 0x88,
-        INX = 0xe8,
-        INY = 0xc8,
-        NOP = 0xea,
-        PHA = 0x48,
-        PHP = 0x08,
-        PLA = 0x68,
-        PLP = 0x28,
-        RTI = 0x40,
-        RTS = 0x60,
-        SEC = 0x38,
-        SED = 0xf8,
-        SEI = 0x78,
-        TAX = 0xaa,
-        TAY = 0xa8,
-        TSX = 0xba,
-        TXA = 0x8a,
-        TXS = 0x9a,
-        TYA = 0x98,
+        BRK = 0x00, // Simulate IRQ
+        CLC = 0x18, // Clear Carry
+        CLD = 0xd8, // Clear Decimal
+        CLI = 0x58, // Clear Interrupt Dis
+        CLV = 0xb8, // Clear Overflow
+        DEX = 0xca, // Decrement X
+        DEY = 0x88, // Decrement Y
+        INX = 0xe8, // Increment X
+        INY = 0xc8, // Increment Y
+        NOP = 0xea, // No Operation
+        PHA = 0x48, // Push A
+        PHP = 0x08, // Push P
+        PLA = 0x68, // Pop to A
+        PLP = 0x28, // Pop to P
+        RTI = 0x40, // Return from Interrupt
+        RTS = 0x60, // Return from Subroutine
+        SEC = 0x38, // Set Carry
+        SED = 0xf8, // Set Decimal
+        SEI = 0x78, // Set Interrupt Disable
+        TAX = 0xaa, // Transfer A to X
+        TAY = 0xa8, // Transfer A to Y
+        TSX = 0xba, // Transfer Stack Pointer to X
+        TXA = 0x8a, // Transfer X to A
+        TXS = 0x9a, // Transfer X to Stack Pointer
+        TYA = 0x98, // Transfer Y to A
     };
 
     // Immediate
     enum class InstrImmed : uint8_t
     {
-        ADC = 0x69,
-        AND = 0x29,
-        CMD = 0xc9,
-        CPX = 0xe0,
-        CPY = 0xc0,
-        EOR = 0x49,
-        LDA = 0xa9,
-        LDX = 0xa2,
-        LDY = 0xa0,
-        ORA = 0x09,
-        SBC = 0xe9,
+        ADC = 0x69, // Add to A and Carry
+        AND = 0x29, // AND with A
+        CMD = 0xc9, // Compare with A
+        CPX = 0xe0, // Compare with X
+        CPY = 0xc0, // Compare with Y
+        EOR = 0x49, // XOR with A
+        LDA = 0xa9, // Load A
+        LDX = 0xa2, // Load X
+        LDY = 0xa0, // Load Y
+        ORA = 0x09, // Or with A
+        SBC = 0xe9, // Subtract from A with Borrow
     };
 
     // 'A' Register
     enum class InstrA : uint8_t
     {
-        ASL = 0x0a,
-        LSR = 0x4a,
-        ROL = 0x2a,
-        ROR = 0x2a,
+        ASL = 0x0a, // Arithmetic Shift Left
+        LSR = 0x4a, // Logical Shift Right by One
+        ROL = 0x2a, // Rotate Left by One
+        ROR = 0x2a, // Rotate Right by One
     };
 
     // Relative
     enum class InstrRel : uint8_t
     {
-        BCC = 0x90,
-        BCS = 0xb0,
-        BMI = 0x30,
-        BNE = 0xd0,
-        BPL = 0x10,
-        BVC = 0x50,
-        BVS = 0x70,
+        BCC = 0x90, // Branch if Carry is Clear
+        BCS = 0xb0, // Branch if Carry is Set
+        BEQ = 0xf0, // Branch if Equal (Z is Set)
+        BMI = 0x30, // Branch if Sign is Set
+        BNE = 0xd0, // Branch if Not Equal (Z is C
+        BPL = 0x10, // Branch if Sign is Clear
+        BVC = 0x50, // Branch if Overflow is Clear
+        BVS = 0x70, // Branch if Overflow is Set
     };
 
     // Zero Page
     enum class InstrZP : uint8_t
     {
-        ADC = 0x65,
-        AND = 0x25,
-        ASL = 0x06,
-        BIT = 0x24,
-        CMP = 0xc5,
-        CPX = 0xe4,
-        CPY = 0xc4,
-        DEC = 0xc6,
-        EOR = 0x45,
-        INC = 0xe6,
-        LDA = 0xa5,
-        LDX = 0xa6,
-        LDY = 0xa4,
-        LSR = 0x46,
-        ORA = 0x05,
-        ROL = 0x26,
-        ROR = 0x66,
-        SBC = 0xe5,
-        STA = 0x85,
-        STX = 0x86,
-        STY = 0x84,
+        ADC = 0x65, // Add to A and Carry
+        AND = 0x25, // AND with A
+        ASL = 0x06, // Arithmetic Shift Left
+        BIT = 0x24, // Test bits in Memory by masking with A
+        CMP = 0xc5, // Compare with A
+        CPX = 0xe4, // Compare with X
+        CPY = 0xc4, // Compare with Y
+        DEC = 0xc6, // Decrement by One
+        EOR = 0x45, // XOR with A
+        INC = 0xe6, // Increment by One
+        LDA = 0xa5, // Load A
+        LDX = 0xa6, // Load X
+        LDY = 0xa4, // Load Y
+        LSR = 0x46, // Logical Shift Right by One
+        ORA = 0x05, // Or with A
+        ROL = 0x26, // Rotate Left by One
+        ROR = 0x66, // Rotate Right by One
+        SBC = 0xe5, // Subtract from A with Borrow
+        STA = 0x85, // Store A
+        STX = 0x86, // Store X
+        STY = 0x84, // Store Y
     };
 
     // Zero Page Indexed by 'X' Register
     enum class InstrZPX : uint8_t
     {
-        ADC = 0x75,
-        AND = 0x35,
-        ASL = 0x16,
-        CMP = 0xd5,
-        DEC = 0xd6,
-        EOR = 0x55,
-        INC = 0xf6,
-        LDA = 0xb5,
-        LDY = 0xb4,
-        LSR = 0x56,
-        ORA = 0x15,
-        ROL = 0x36,
-        ROR = 0x76,
-        SBC = 0xf5,
-        STA = 0x95,
-        STY = 0x94,
+        ADC = 0x75, // Add to A and Carry
+        AND = 0x35, // AND with A
+        ASL = 0x16, // Arithmetic Shift Left
+        CMP = 0xd5, // Compare with A
+        DEC = 0xd6, // Decrement by One
+        EOR = 0x55, // XOR with A
+        INC = 0xf6, // Increment by One
+        LDA = 0xb5, // Load A
+        LDY = 0xb4, // Load Y
+        LSR = 0x56, // Logical Shift Right by One
+        ORA = 0x15, // Or with A
+        ROL = 0x36, // Rotate Left by One
+        ROR = 0x76, // Rotate Right by One
+        SBC = 0xf5, // Subtract from A with Borrow
+        STA = 0x95, // Store A
+        STY = 0x94, // Store Y
     };
 
     // Zero Page Indexed by 'Y' Register
     enum class InstrZPY : uint8_t
     {
-        LDX = 0xb6,
-        STX = 0x96,
+        LDX = 0xb6, // Load X
+        STX = 0x96, // Store X
     };
 
     // Absolute
     enum class InstrAbs : uint8_t
     {
-        ADC = 0x6d,
-        AND = 0x2d,
-        ASL = 0x0e,
-        BIT = 0x2c,
-        CMP = 0xcd,
-        CPX = 0xec,
-        CPY = 0xcc,
-        DEC = 0xce,
-        EOR = 0x4d,
-        INC = 0xee,
-        JMP = 0x4c,
-        JSR = 0x20,
-        LDA = 0xad,
-        LDX = 0xae,
-        LDY = 0xac,
-        LSR = 0x4e,
-        ORA = 0x0d,
-        ROL = 0x2e,
-        ROR = 0x6e,
-        SBC = 0xed,
-        STA = 0x8d,
-        STX = 0x8e,
-        STY = 0x8c,
+        ADC = 0x6d, // Add to A and Carry
+        AND = 0x2d, // AND with A
+        ASL = 0x0e, // Arithmetic Shift Left
+        BIT = 0x2c, // Test bits in Memory by masking with A
+        CMP = 0xcd, // Compare with A
+        CPX = 0xec, // Compare with X
+        CPY = 0xcc, // Compare with Y
+        DEC = 0xce, // Decrement by One
+        EOR = 0x4d, // XOR with A
+        INC = 0xee, // Increment by One
+        JMP = 0x4c, // Branch Unconditionally
+        JSR = 0x20, // Jump to Subroutine
+        LDA = 0xad, // Load A
+        LDX = 0xae, // Load X
+        LDY = 0xac, // Load Y
+        LSR = 0x4e, // Logical Shift Right by One
+        ORA = 0x0d, // Or with A
+        ROL = 0x2e, // Rotate Left by One
+        ROR = 0x6e, // Rotate Right by One
+        SBC = 0xed, // Subtract from A with Borrow
+        STA = 0x8d, // Store A
+        STX = 0x8e, // Store X
+        STY = 0x8c, // Store Y
     };
 
     // Absolute Indexed by 'X' Register
     enum class InstrAbsX : uint8_t
     {
-        ADC = 0x7d,
-        AND = 0x3d,
-        ASL = 0x1e,
-        CMP = 0xdd,
-        DEC = 0xde,
-        EOR = 0x5d,
-        INC = 0xfe,
-        LDA = 0xbd,
-        LDY = 0xbc,
-        LSR = 0x5e,
-        ORA = 0x1d,
-        ROL = 0x3e,
-        ROR = 0x7e,
-        SBC = 0xfd,
-        STA = 0x9d,
+        ADC = 0x7d, // Add to A and Carry
+        AND = 0x3d, // AND with A
+        ASL = 0x1e, // Arithmetic Shift Left
+        CMP = 0xdd, // Compare with A
+        DEC = 0xde, // Decrement by One
+        EOR = 0x5d, // XOR with A
+        INC = 0xfe, // Increment by One
+        LDA = 0xbd, // Load A
+        LDY = 0xbc, // Load Y
+        LSR = 0x5e, // Logical Shift Right by One
+        ORA = 0x1d, // Or with A
+        ROL = 0x3e, // Rotate Left by One
+        ROR = 0x7e, // Rotate Right by One
+        SBC = 0xfd, // Subtract from A with Borrow
+        STA = 0x9d, // Store A
     };
 
     // Absolute Indexed by 'Y' Register
     enum class InstrAbsY : uint8_t
     {
-        ADC = 0x79,
-        AND = 0x39,
-        CMP = 0xd9,
-        EOR = 0x59,
-        LDA = 0xb9,
-        LDX = 0xbe,
-        ORA = 0x19,
-        SBC = 0xf9,
-        STA = 0x99,
+        ADC = 0x79, // Add to A and Carry
+        AND = 0x39, // AND with A
+        CMP = 0xd9, // Compare with A
+        EOR = 0x59, // XOR with A
+        LDA = 0xb9, // Load A
+        LDX = 0xbe, // Load X
+        ORA = 0x19, // Or with A
+        SBC = 0xf9, // Subtract from A with Borrow
+        STA = 0x99, // Store A
     };
 
     // Indirect from Pointer in the Zero Page
     enum class InstrInd : uint8_t
     {
-        JMP = 0x6c,
+        JMP = 0x6c, // Branch Unconditionally
     };
 
     // Indirect from Pointer in the Zero Page Indexed by 'X' Register Before Dereferencing
     enum class InstrIndX : uint8_t
     {
-        ADC = 0x61,
-        AND = 0x21,
-        CMP = 0xc1,
-        EOR = 0x41,
-        LDA = 0xa1,
-        ORA = 0x01,
-        SBC = 0xe1,
-        STA = 0x81,
+        ADC = 0x61, // Add to A and Carry
+        AND = 0x21, // AND with A
+        CMP = 0xc1, // Compare with A
+        EOR = 0x41, // XOR with A
+        LDA = 0xa1, // Load A
+        ORA = 0x01, // Or with A
+        SBC = 0xe1, // Subtract from A with Borrow
+        STA = 0x81, // Store A
     };
 
     // Indirect from Pointer in the Zero Page Indexed by 'Y' Register After Dereferencing
     enum class InstrIndY : uint8_t
     {
-        ADC = 0x71,
-        AND = 0x31,
-        CMP = 0xd1,
-        EOR = 0x51,
-        LDA = 0xb1,
-        ORA = 0x11,
-        SBC = 0xf1,
-        STA = 0x91,
+        ADC = 0x71, // Add to A and Carry
+        AND = 0x31, // AND with A
+        CMP = 0xd1, // Compare with A
+        EOR = 0x51, // XOR with A
+        LDA = 0xb1, // Load A
+        ORA = 0x11, // Or with A
+        SBC = 0xf1, // Subtract from A with Borrow
+        STA = 0x91, // Store A
     };
 
     enum class Instruction : uint8_t
