@@ -14,6 +14,11 @@ StdioLayer::StdioLayer(size_t memorySize)
     m_memory.resize(memorySize);
 }
 
+void StdioLayer::Load(vector<uint8_t> bytes, uint16_t address)
+{
+    memcpy_s(m_memory.data() + address, m_memory.size() - address, bytes.data(), bytes.size());
+}
+
 void StdioLayer::Output(uint8_t value, uint16_t address)
 {
     m_memory[address] = value;

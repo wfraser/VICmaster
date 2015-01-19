@@ -221,6 +221,7 @@ public:
         STA = 0x91, // Store A
     };
 
+    // All Instructions
     enum class Instruction : uint8_t
     {
         ADC = 0,// Add to A and Carry
@@ -283,6 +284,25 @@ public:
         INVALID = 0xff  // An unused opcode used to represent invalid entries in the opcode-mode table.
     };
 
+    // Addressing Modes
+    enum class Mode : uint8_t
+    {
+        Implied = 0,// Implied (no arguments)
+        Immed,      // Immediate
+        A,          // 'A' Register
+        Rel,        // Relative
+        ZP,         // Zero Page
+        ZPX,        // Zero Page Indexed by 'X' Register
+        ZPY,        // Zero Page Indexed by 'Y' Register
+        Abs,        // Absolute
+        AbsX,       // Absolute Indexed by 'X' Register
+        AbsY,       // Absolute Indexed by 'Y' Register
+        Ind,        // Indirect from Pointer in the Zero Page
+        IndX,       // Indirect from Pointer in the Zero Page Indexed by 'X' Register Before Dereferencing
+        IndY,       // Indirect from Pointer in the Zero Page Indexed by 'Y' Register After Dereferencing
+        MAX_VALUE
+    };
+
     Asm6502(std::shared_ptr<IOLayer> io);
 
     void Emit(InstrImplied);
@@ -302,6 +322,23 @@ public:
     void EmitBytes(const uint8_t* bytes, size_t nBytes);
     void EmitByte(uint8_t byte);
     void EmitAddr(uint16_t addr);
+
+    struct Disassembly
+    {
+        uint16_t Address;
+        Instruction Instruction;
+        Mode Mode;
+        union
+        {
+            uint8_t u8;
+            uint16_t u16;
+        } Arg;
+    };
+
+    std::vector<Disassembly> Disassemble(
+        uint16_t start = 0,
+        uint16_t end = std::numeric_limits<uint16_t>::max());
+    static void PrintDisassembly(const std::vector<Disassembly>& disassembly);
 
     uint16_t CurrentAddress;
 
